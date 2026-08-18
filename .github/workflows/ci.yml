@@ -12,8 +12,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install pytest
-      - run: pytest -q
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run offline tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: python -m pytest -q
 
 # Braintrust experiment upload is intentionally not run in CI because it requires
 # a private BRAINTRUST_API_KEY. Run `python braintrust_eval.py` locally instead.
