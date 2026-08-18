@@ -1,0 +1,26 @@
+[
+  {
+    "case_id": "morning-run",
+    "request": "Create an upbeat but not aggressive morning-run playlist under 30 minutes with 6 tracks and no repeated artists.",
+    "max_minutes": 30,
+    "track_count": 6,
+    "max_tracks_per_artist": 1,
+    "target_mood": "upbeat, light, energetic"
+  },
+  {
+    "case_id": "focus-session",
+    "request": "Create a 5-track focus playlist with no vocals and no repeated artists.",
+    "track_count": 5,
+    "max_tracks_per_artist": 1,
+    "instrumental_only": true,
+    "target_mood": "focused, unobtrusive"
+  },
+  {
+    "case_id": "genre-balance",
+    "request": "Create an 8-track playlist balanced across indie pop and electronic music, with at least 3 tracks from each genre.",
+    "track_count": 8,
+    "required_genres": ["indie pop", "electronic"],
+    "min_tracks_per_required_genre": 3,
+    "target_mood": "varied but coherent"
+  }
+]
