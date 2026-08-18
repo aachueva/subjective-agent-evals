@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pytest
+      - run: pytest -q
+
+# Braintrust experiment upload is intentionally not run in CI because it requires
+# a private BRAINTRUST_API_KEY. Run `python braintrust_eval.py` locally instead.
