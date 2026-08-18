@@ -6,6 +6,31 @@ The example domain is playlist generation because it makes the problem easy to u
 
 The project is adapted from an AI evaluation prototype I built while exploring agent-quality workflows. This public version is independent and contains no interview prompt or proprietary company material.
 
+## What is actually runnable
+
+The repository has two layers:
+
+1. **Offline deterministic evaluation** — Python scorers and pytest tests run without any external service.
+2. **Braintrust experiment** — `braintrust_eval.py` uses the real Braintrust Python `Eval()` workflow to log and compare an experiment when `BRAINTRUST_API_KEY` is configured.
+
+### Run locally
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest -q
+```
+
+To send the sample experiment to Braintrust:
+
+```bash
+export BRAINTRUST_API_KEY="..."
+python braintrust_eval.py
+```
+
+The sample task is deterministic on purpose, so you can inspect the evaluation plumbing before introducing another model/API variable.
+
 ## Why this project
 
 Many AI demos stop after the agent produces a plausible answer. Production teams need a repeatable way to answer:
@@ -17,8 +42,6 @@ Many AI demos stop after the agent produces a plausible answer. Production teams
 - Which metrics can be deterministic and which need model or human judgment?
 
 ## Evaluation dimensions
-
-This example separates hard constraints from subjective quality:
 
 | Dimension | Type | Example |
 |---|---|---|
@@ -53,29 +76,21 @@ Production traces / curated examples
               +------> new hard cases
 ```
 
-The value is not a one-time benchmark. It is a repeatable operating system for improving AI-product quality.
-
 ## Four-week pilot pattern
 
-**Week 1 — Instrument**  
-Capture representative traces and identify the user journeys that matter.
+**Week 1 — Instrument:** capture representative traces and identify important journeys.  
+**Week 2 — Curate:** create a high-quality dataset from production-like examples and known failures.  
+**Week 3 — Define quality:** agree on hard constraints, subjective dimensions, latency, and cost.  
+**Week 4 — Compare and operationalize:** run experiments, inspect failures, select a candidate, and define online monitoring.
 
-**Week 2 — Curate**  
-Create a small, high-quality dataset from production-like examples and known failure modes.
+## Current implementation
 
-**Week 3 — Define quality**  
-Agree on a compact scorecard: hard constraints, subjective dimensions, latency, and cost.
-
-**Week 4 — Compare and operationalize**  
-Run prompt/model experiments, inspect failures, select a candidate, and define online monitoring.
-
-## Repository roadmap
-
-- [x] Example dataset
+- [x] Example evaluation dataset
 - [x] Deterministic scoring utilities
-- [x] Variant-comparison script
+- [x] Unit tests and GitHub CI
+- [x] Real Braintrust `Eval()` integration
+- [x] Human/model-judge rubric design
 - [ ] LLM-as-judge adapter
-- [ ] Human-review rubric
 - [ ] Trace ingestion example
 - [ ] Online monitoring example
 
