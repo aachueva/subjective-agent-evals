@@ -1,19 +1,21 @@
 # Subjective Agent Evals
 
-A small evaluation framework for a deceptively hard AI-product question: **how do you measure whether an agent is getting better when quality is partly subjective?**
+A runnable evaluation framework for a deceptively hard AI-product question: **how do you measure whether an agent is getting better when quality is partly subjective?**
 
 The example domain is playlist generation because it makes the problem easy to understand: a playlist can satisfy hard constraints and still feel repetitive, incoherent, or poorly matched to the user's intent.
 
-The project is adapted from an AI evaluation prototype I built while exploring agent-quality workflows. This public version is independent and contains no interview prompt or proprietary company material.
+## Experiment preview
 
-## What is actually runnable
+![Experiment dashboard](docs/experiment_dashboard.svg)
+
+The project uses Braintrust experiments to compare variants across deterministic constraints and subjective quality dimensions. The visual above illustrates the workflow and the kind of experiment comparison the project is designed to produce.
+
+## What is runnable
 
 The repository has two layers:
 
 1. **Offline deterministic evaluation** — Python scorers and pytest tests run without any external service.
-2. **Braintrust experiment** — `braintrust_eval.py` uses the real Braintrust Python `Eval()` workflow to log and compare an experiment when `BRAINTRUST_API_KEY` is configured.
-
-### Run locally
+2. **Braintrust experiment** — `braintrust_eval.py` uses Braintrust's Python `Eval()` workflow to log and compare an experiment when `BRAINTRUST_API_KEY` is configured.
 
 ```bash
 python -m venv .venv
@@ -29,17 +31,11 @@ export BRAINTRUST_API_KEY="..."
 python braintrust_eval.py
 ```
 
-The sample task is deterministic on purpose, so you can inspect the evaluation plumbing before introducing another model/API variable.
+The sample task is deterministic on purpose, so the evaluation plumbing can be inspected before introducing another model/API variable.
 
 ## Why this project
 
-Many AI demos stop after the agent produces a plausible answer. Production teams need a repeatable way to answer:
-
-- Did the new prompt actually improve quality?
-- Which user journeys regressed?
-- Is the more expensive model worth it?
-- Can PMs and engineers agree on what “good” means?
-- Which metrics can be deterministic and which need model or human judgment?
+Many AI demos stop after the agent produces a plausible answer. Production teams need a repeatable way to answer whether a new prompt actually improved quality, which journeys regressed, whether a more expensive model is worth it, and which requirements should be deterministic versus model- or human-judged.
 
 ## Evaluation dimensions
 
@@ -88,8 +84,9 @@ Production traces / curated examples
 - [x] Example evaluation dataset
 - [x] Deterministic scoring utilities
 - [x] Unit tests and GitHub CI
-- [x] Real Braintrust `Eval()` integration
+- [x] Braintrust `Eval()` integration
 - [x] Human/model-judge rubric design
+- [x] Visual experiment preview
 - [ ] LLM-as-judge adapter
 - [ ] Trace ingestion example
 - [ ] Online monitoring example
